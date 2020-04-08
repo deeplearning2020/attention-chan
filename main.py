@@ -15,10 +15,9 @@ from util import ConvATT
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = ConvATT(512, 3, strides = 1)(input_img)
-    x = ConvATT(256, 3, strides = 1)(x)
-    x = ConvATT(128, 3, strides = 1)(x)
+    x = ConvATT(128, 3, strides = 1)(input_img)
     x = ConvATT(64, 3, strides = 1)(x)
+    x = ConvATT(32, 3, strides = 1)(x)
     x = ConvATT(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -40,7 +39,7 @@ def main():
     lr_image = np.array([lr_image]*batchSize)
 
     nn = model(inputShape)
-    nn.compile(optimizer = 'adadelta', loss = 'mse')
+    nn.compile(optimizer = 'adam', loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss', mode = 'min', verbose = 1, 
             patience = 70) ## early stopping to prevent overfitting
