@@ -15,10 +15,10 @@ from util import ConvATT
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = ConvATT(1024, 3, strides = 1)(input_img)
-    x = ConvATT(512, 3, strides = 1)(x)
+    x = ConvATT(512, 3, strides = 1)(input_img)
     x = ConvATT(256, 3, strides = 1)(x)
     x = ConvATT(128, 3, strides = 1)(x)
+    x = ConvATT(64, 3, strides = 1)(x)
     x = ConvATT(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
