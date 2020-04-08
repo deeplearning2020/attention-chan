@@ -20,7 +20,6 @@ def model(inputShape):
     x = Deconv(32,3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Conv_2D(16,3, strides = 1)(x)
-    x = Deconv(16, 3)(x)
     x = ConvATT(16,3)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
