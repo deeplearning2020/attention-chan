@@ -19,7 +19,6 @@ def model(inputShape):
     x = Conv_2D(64, 3, strides = 1)(x)
     x = Deconv(32,3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
-    x = ConvATT(32,3)(x)
     x = Conv_2D(16,3, strides = 1)(x)
     x = Deconv(16, 3)(x)
     x = ConvATT(16,3)(x)
