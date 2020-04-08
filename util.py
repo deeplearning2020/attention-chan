@@ -1,4 +1,4 @@
-from tensorflow.python.keras.layers import (Conv2D, Conv2DTranspose
+from tensorflow.python.keras.layers import (Conv2D, Conv2DTranspose,
             BatchNormalization, LeakyReLU)
 from tensorflow.python.keras.models import Model
 from layers import SelfAttention
@@ -31,7 +31,7 @@ class Conv(object):
         x = LeakyReLU()(x)
         return x
 
-class DeConv(object):
+class Deconv(object):
 
     def __init__(self, filters, kernelSize, strides = 2):
         self.filters = filters
