@@ -1,6 +1,5 @@
-from tensorflow.python.keras.layers import (InputLayer, Conv2D, Conv2DTranspose,
-            BatchNormalization, LeakyReLU, MaxPool2D, UpSampling2D,
-            Reshape, GlobalAveragePooling2D, GaussianNoise)
+from tensorflow.python.keras.layers import (Conv2D,
+            BatchNormalization, LeakyReLU)
 from tensorflow.python.keras.models import Model
 from layers import SelfAttention
 
@@ -15,7 +14,6 @@ class ConvATT(object):
 
         x = Conv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
         x = SelfAttention(ch = self.filters)(x)
-        x = BatchNormalization()(x)
         x = LeakyReLU()(x)
         return x
 

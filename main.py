@@ -15,7 +15,9 @@ from util import ConvATT
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = ConvATT(256, 3, strides = 1)(input_img)
+    x = ConvATT(1024, 3, strides = 1)(input_img)
+    x = ConvATT(512, 3, strides = 1)(x)
+    x = ConvATT(256, 3, strides = 1)(x)
     x = ConvATT(128, 3, strides = 1)(x)
     x = ConvATT(3, 3, strides = 1)(x)
     model = Model(input_img, x)
@@ -44,7 +46,7 @@ def main():
             patience = 70) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 20,
+                epochs = 2000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
