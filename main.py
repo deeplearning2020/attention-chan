@@ -10,16 +10,18 @@ from tensorflow.python.keras.preprocessing.image import load_img
 from tensorflow.python.keras import Input, optimizers
 from tensorflow.python.keras.models import Model
 from matplotlib import pyplot as plt
-from util import ConvATT, Conv
+from util import ConvATT, Conv, Deconv
 
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv(128, 3, strides = 1)(input_img)
     x = Conv(64, 3, strides = 1)(x)
+    x = Deconv(32,3)(x)
     x = Conv(32, 3, strides = 1)(x)
     x = ConvATT(32,3)(x)
     x = Conv(16,3, strides = 1)(x)
+    x = Deconv(16, 3)(x)
     x = ConvATT(16,3)(x)
     x = Conv(3, 3, strides = 1)(x)
     model = Model(input_img, x)
