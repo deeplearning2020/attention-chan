@@ -17,7 +17,7 @@ class ConvATT(object):
         x = LeakyReLU()(x)
         return x
 
-class Conv(object):
+class Conv_2D(object):
 
     def __init__(self, filters, kernelSize, strides = 1):
         self.filters = filters
