@@ -24,7 +24,7 @@ def model(inputShape):
     x = Conv_2D(128, 3, strides = 1)(x)
     for i in range(5):
         x = Resnet_block(128, 3)(x)
-    x = Deconv(64,3, strides = 2)(x)
+    x = Deconv(64,3, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Deconv(16,3, strides = 1)(x)
     x = BatchNormalization()(x)
