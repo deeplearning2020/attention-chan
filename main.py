@@ -12,7 +12,7 @@ from tensorflow.keras.models import Model
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
 from layers import SelfAttention
-from layers import Resnet_block
+from utils import Resnet_block
 
 
 def model(inputShape):
