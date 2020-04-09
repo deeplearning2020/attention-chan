@@ -17,17 +17,18 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
     x = Conv_2D(64, 3, strides = 1)(x)
-    x = Deconv(32,3)(x)
+    x = Deconv(32,3, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
+    x = ConvATT(32,3, strides = 1)(x)
     x = Conv_2D(16,3, strides = 1)(x)
-    x = ConvATT(16,3)(x)
+    x = ConvATT(16,3,strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
 def main():
 
-    inputShape = (256, 256, 3)
+    inputShape = (64, 64, 3)
     batchSize = 8
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'),
