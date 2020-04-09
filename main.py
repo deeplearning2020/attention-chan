@@ -11,17 +11,17 @@ from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
+from layers import SelfAttention
 
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
+    x = SelfAttention(ch = 128)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
     x = Deconv(32,3, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
-    x = ConvATT(32,3, strides = 1)(x)
-    x = Conv_2D(16,3, strides = 1)(x)
-    x = ConvATT(16,3,strides = 1)(x)
+    x = Deconv(16,3, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
