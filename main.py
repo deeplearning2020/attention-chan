@@ -18,7 +18,7 @@ def model(inputShape):
     x = Conv_2D(128, 3, strides = 1)(input_img)
     x = Conv_2D(64, 3, strides = 1)(x)
     x = Deconv(32,3, strides = 1)(x)
-    x = Conv_2D(32, 3, strides = 1)(x)
+    #x = Conv_2D(32, 3, strides = 1)(x)
     #x = ConvATT(32,3, strides = 1)(x)
     x = Conv_2D(16,3, strides = 1)(x)
     #x = ConvATT(16,3,strides = 1)(x)
@@ -28,17 +28,17 @@ def model(inputShape):
 
 def main():
 
-    inputShape = (None, None, 3)
+    inputShape = (128, 128, 3)
     batchSize = 8
 
-    hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'))
-            #target_size = inputShape[:-1]) ## loading the high-resolution image
+    hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'),
+            target_size = inputShape[:-1]) ## loading the high-resolution image
     hr_image = np.array(hr_image, dtype = np.float32) * (2/255) - 1
     hr_image = np.array([hr_image]*batchSize) ## creating fake batches
 
 
-    lr_image = load_img(os.path.join(os.getcwd(),'lr_image','LR.bmp'))
-            #target_size = inputShape[:-1]) ## loading the low-resolution image
+    lr_image = load_img(os.path.join(os.getcwd(),'lr_image','LR.bmp'),
+            target_size = inputShape[:-1]) ## loading the low-resolution image
     lr_image = np.array(lr_image, dtype = np.float32) * (2/255) - 1
     lr_image = np.array([lr_image]*batchSize)
 
@@ -46,7 +46,7 @@ def main():
     nn.compile(optimizer = 'adam', loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss', mode = 'min', verbose = 1, 
-            patience = 70) ## early stopping to prevent overfitting
+            patience = 50) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
                 epochs = 2000,
