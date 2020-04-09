@@ -22,9 +22,9 @@ def model(inputShape):
     x = Conv_2D(32, 3, strides = 2)(x)
     for i in range(5):
         x = Resnet_block(32, 3)(x)
-    x = Deconv(32,3, strides = 1)(x)
-    x = Conv_2D(32, 3, strides = 2)(x)
-    x = Deconv(16,3, strides = 1)(x)
+    x = Deconv(32,3, strides = 2)(x)
+    x = Conv_2D(32, 3, strides = 1)(x)
+    x = Deconv(16,3, strides = 2)(x)
     x = SelfAttention(ch = 16)(x)
     x = BatchNormalization()(x)
     x = Conv_2D(3, 3, strides = 1)(x)
