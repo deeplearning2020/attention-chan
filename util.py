@@ -5,8 +5,9 @@ from tensorflow.keras.models import Model
 from layers import SelfAttention
 
 class Resnet_block(object):
-  def __init__(self, kernel_size, filters):
-    super(ResnetIdentityBlock, self).__init__(name = '')
+  def __init__(self, kernelSize, filters):
+    self.filters = filters
+    self.kernelSize = kernelSize
     filters1, filters2, filters3 = filters
 
     self.conv2a = Conv2D(filters1, (1, 1))
@@ -18,7 +19,7 @@ class Resnet_block(object):
     self.conv2c = Conv2D(filters3, (1, 1))
     self.bn2c = BatchNormalization()
 
-  def call(self, input_tensor, training = False):
+  def __call__(self, input_tensor, training = False):
     x = self.conv2a(input_tensor)
     x = self.bn2a(x, training = training)
     x = tf.nn.relu(x)
