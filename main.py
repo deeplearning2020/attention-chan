@@ -3,12 +3,12 @@ import numpy as np
 import cv2, skimage
 from PIL import Image
 import tensorflow as tf
-from tensorflow.python.keras import Input
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.callbacks import EarlyStopping
-from tensorflow.python.keras.preprocessing.image import load_img
-from tensorflow.python.keras import Input, optimizers
-from tensorflow.python.keras.models import Model
+from tensorflow.keras import Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras import Input, optimizers
+from tensorflow.keras.models import Model
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
 
