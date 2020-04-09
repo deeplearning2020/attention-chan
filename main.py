@@ -9,6 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
+from tensorlofw.keras.layers import BatchNormalization
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
 from layers import SelfAttention
@@ -25,6 +26,7 @@ def model(inputShape):
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Deconv(16,3, strides = 1)(x)
     x = SelfAttention(ch = 16)(x)
+    x = BatchNormalization()(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
