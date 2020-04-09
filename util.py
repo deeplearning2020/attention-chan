@@ -14,6 +14,7 @@ class ConvATT(object):
 
         x = Conv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
         x = SelfAttention(ch = self.filters)(x)
+        x = BatchNormalization()(x)
         x = LeakyReLU()(x)
         return x
 
