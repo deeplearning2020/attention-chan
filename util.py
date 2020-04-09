@@ -12,7 +12,7 @@ class Resnet_block(object):
     self.conv2a = Conv2D(filters, (1, 1))
     self.bn2a = BatchNormalization()
 
-    self.conv2b = Conv2D(filters, kernel_size, padding = 'same')
+    self.conv2b = Conv2D(filters, kernelSize, padding = 'same')
     self.bn2b = BatchNormalization()
 
     self.conv2c = Conv2D(filters, (1, 1))
