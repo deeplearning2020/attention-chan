@@ -18,7 +18,7 @@ from util import Resnet_block
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
-    x = Conv_2D(64, 3, strides = 1)(x)
+    x = Conv_2D(32, 3, strides = 1)(x)
     for i in range(5):
         x = Resnet_block(32, 3)(x)
     x = Deconv(32,3, strides = 1)(x)
