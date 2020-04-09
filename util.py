@@ -5,7 +5,7 @@ from tensorflow.keras.models import Model
 from layers import SelfAttention
 
 class Resnet_block(object):
-  def __init__(self, kernelSize, filters):
+  def __init__(self, filters, kernelSize):
     self.filters = filters
     self.kernelSize = kernelSize
     filters1, filters2, filters3 = filters
