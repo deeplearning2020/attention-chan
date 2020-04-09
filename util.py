@@ -27,7 +27,6 @@ class Conv_2D(object):
     def __call__(self, x, training = None):
 
         x = Conv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
-        #x = SelfAttention(ch = self.filters)(x)
         x = LeakyReLU()(x)
         return x
 
@@ -41,7 +40,6 @@ class Deconv(object):
     def __call__(self, x, training = None):
 
         x = Conv2DTranspose(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
-        #x = SelfAttention(ch = self.filters)(x)
         x = LeakyReLU()(x)
         return x
 
