@@ -1,7 +1,7 @@
 from tensorflow.keras.layers import (Conv2D, Conv2DTranspose,
             BatchNormalization, LeakyReLU)
 from tensorflow.keras.models import Model
-#from layers import SelfAttention
+from layers import SelfAttention
 
 class ConvATT(object):
 
