@@ -29,7 +29,6 @@ def model(inputShape):
     x = Conv_2D(32, 5, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 2)(x)
-    x = MaxPooling2D()(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -51,14 +50,14 @@ def main():
     lr_image = np.array([lr_image]*batchSize)
 
     nn = model(inputShape)
-    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .5, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss', mode = 'min', verbose = 1, 
             patience = 40) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 1500,
+                epochs = 1000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
