@@ -23,7 +23,7 @@ def model(inputShape):
     x = Conv_2D(128, 3, strides = 1)(x)
     x = ChannelAttention(128, reduction = 1)(x)
     for i in range(10):
-        x = Resnet_block(64, 3)(x)
+        x = Resnet_block(128, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 1)(x)
