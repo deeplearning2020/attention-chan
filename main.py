@@ -23,18 +23,19 @@ def model(inputShape):
     x = Conv_2D(128, 3, strides = 1)(x)
     x = Deconv(64, 3, strides = 1)(x)
     x = ChannelAttention(64, reduction = 1)(x)
-    for i in range(10):
+    for i in range(5):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 1)(x)
+    x = SelfAttention(ch = 16)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
 def main():
 
-    inputShape = (256, 256, 3)
+    inputShape = (64, 64, 3)
     batchSize = 8
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'),
