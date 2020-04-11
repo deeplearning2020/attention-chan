@@ -9,7 +9,8 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import BatchNormalization, MaxPooling2D
+from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
 from layers import SelfAttention
@@ -28,6 +29,7 @@ def model(inputShape):
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 1)(x)
+    x = MaxPooling2D()(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -49,7 +51,8 @@ def main():
     lr_image = np.array([lr_image]*batchSize)
 
     nn = model(inputShape)
-    nn.compile(optimizer = 'adadelta', loss = 'mse')
+    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss', mode = 'min', verbose = 1, 
             patience = 40) ## early stopping to prevent overfitting
