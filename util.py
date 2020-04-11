@@ -7,10 +7,10 @@ from layers import SelfAttention
 
 class PixelNormalization(object):
 
-    def __init__(self, **kwargs):
-        super(PixelNormalization, self).__init__(**kwargs)
+    def __init__(self):
+        super(PixelNormalization, self).__init__()
 
-    def call(self, inputs):
+    def __call__(self, inputs):
         values = inputs**2.0
         mean_values = tf.reduce_mean(values, axis=-1, keepdims=True)
         mean_values += 1.0e-8
