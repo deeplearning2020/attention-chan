@@ -20,7 +20,7 @@ from util import Resnet_block
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
-    x = Conv_2D(256, 3, strides = 1)(x)
+    x = Conv_2D(64, 3, strides = 1)(x)
     x = Deconv(64, 3, strides = 1)(x)
     x = ChannelAttention(64, reduction = 1)(x)
     for i in range(5):
@@ -35,7 +35,7 @@ def model(inputShape):
 def main():
 
     inputShape = (None,None, 3)
-    batchSize = 8
+    batchSize = 2
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'))
             #target_size = inputShape[:-1]) ## loading the high-resolution image
