@@ -21,7 +21,7 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(512, 3, strides = 1)(input_img)
     x = Conv_2D(128, 3, strides = 1)(x)
-    x = ChannelAttention(64, reduction = 1)(x)
+    x = ChannelAttention(128, reduction = 1)(x)
     for i in range(10):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
