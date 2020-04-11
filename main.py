@@ -49,7 +49,7 @@ def main():
     lr_image = np.array([lr_image]*batchSize)
 
     nn = model(inputShape)
-    nn.compile(optimizer = 'adam', loss = 'mae')
+    nn.compile(optimizer = 'adam', loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss', mode = 'min', verbose = 1, 
             patience = 40) ## early stopping to prevent overfitting
