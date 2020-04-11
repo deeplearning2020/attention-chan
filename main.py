@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import BatchNormalization, MaxPooling2D
+from tensorflow.keras.layers import BatchNormalization, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
@@ -28,7 +28,8 @@ def model(inputShape):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 5, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
-    x = Deconv(16, 3, strides = 1)(x)
+    x = Deconv(16, 3, strides = 2)(x)
+    x = AveragePooling2D()(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
