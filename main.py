@@ -13,6 +13,7 @@ from tensorflow.keras.layers import BatchNormalization
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
 from layers import SelfAttention
+from attention_layer import ChannelAttention
 from util import Resnet_block
 
 
@@ -23,7 +24,7 @@ def model(inputShape):
     for i in range(5):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
-    x = SelfAttention(ch = 32)(x)
+    x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16,3, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
