@@ -25,14 +25,14 @@ def model(inputShape):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
-    x = Deconv(16,3, strides = 1)(x)
+    x = Deconv(16,3, strides = 2)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
 def main():
 
-    inputShape = (128, 128, 3)
+    inputShape = (256, 256, 3)
     batchSize = 8
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'),
