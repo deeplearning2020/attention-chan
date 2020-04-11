@@ -28,7 +28,6 @@ def model(inputShape):
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 1)(x)
-    x = SelfAttention(ch = 16)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
