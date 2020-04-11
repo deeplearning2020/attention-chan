@@ -4,6 +4,20 @@ from tensorflow.keras.layers import (Conv2D, Conv2DTranspose,
 from tensorflow.keras.models import Model
 from layers import SelfAttention
 
+
+class PixelNormalization(object):
+
+    def __init__(self, **kwargs):
+        super(PixelNormalization, self).__init__(**kwargs)
+
+    def call(self, inputs):
+        values = inputs**2.0
+        mean_values = tf.reduce_mean(values, axis=-1, keepdims=True)
+        mean_values += 1.0e-8
+        l2 = tf.sqrt(mean_values)
+        normalized = inputs / l2
+        return normalized
+
 class Resnet_block(object):
   def __init__(self, filters, kernelSize):
     self.filters = filters
@@ -60,7 +74,7 @@ class Conv_2D(object):
     def __call__(self, x, training = None):
 
         x = Conv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
-        x = BatchNormalization()(x)
+        x = PixelNormalization()(x)
         x = LeakyReLU()(x)
         return x
 
@@ -74,7 +88,7 @@ class Deconv(object):
     def __call__(self, x, training = None):
 
         x = Conv2DTranspose(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
-        x = BatchNormalization()(x)
+        x = PixelNormalization()(x)
         x = LeakyReLU()(x)
         return x
 
