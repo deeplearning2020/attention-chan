@@ -31,7 +31,7 @@ def model(inputShape):
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 2)(x)
     x = MaxPooling2D((2, 2), padding='same')(x)
-    x = Conv2D(3, 3, strides = 1, activation = 'linear', padding = 'same')(x)
+    x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
