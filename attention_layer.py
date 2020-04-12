@@ -23,9 +23,7 @@ class ChannelAttention(object):
         x = adaptive_global_average_pool_2d(x)
 
         x = Conv2D(self.filters//self.reduction, kernel_size = 1, activation = 'relu')(x)
-        x = BatchNormalization()(x)
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
-        x = BatchNormalization()(x)
         x = tf.multiply(skip_conn, x)
 
         return x
@@ -48,7 +46,6 @@ class SpatialAttention(object):
         #x = tf.add(maxpool, avgpool)
 
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
-        x = BatchNormalization()(x)
 
         x = tf.multiply(skip_conn, x)
 
