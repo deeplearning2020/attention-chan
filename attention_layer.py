@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, AveragePooling2D
+from tensorflow.keras.layers import BatchNormalization
 
 class ChannelAttention(object):
 
@@ -22,9 +23,9 @@ class ChannelAttention(object):
         x = adaptive_global_average_pool_2d(x)
 
         x = Conv2D(self.filters//self.reduction, kernel_size = 1, activation = 'relu')(x)
-
+        x = BatchNormalization()(x)
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
-
+        x = BatchNormalization()(x)
         x = tf.multiply(skip_conn, x)
 
         return x
@@ -40,13 +41,14 @@ class SpatialAttention(object):
 
         skip_conn = tf.identity(x, name='identity')
 
-        #maxpool = MaxPooling2D((2, 2), padding='same')(x)
+        maxpool = MaxPooling2D((2, 2), padding='valid')(x)
 
-        #avgpool = AveragePooling2D((2, 2), padding='same')(x)
+        avgpool = AveragePooling2D((2, 2), padding='valid')(x)
 
-        #x = tf.add(maxpool, avgpool)
+        x = tf.add(maxpool, avgpool)
 
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
+        x = BatchNormalization()(x)
 
         x = tf.multiply(skip_conn, x)
 
