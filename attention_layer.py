@@ -40,11 +40,11 @@ class SpatialAttention(object):
 
         skip_conn = tf.identity(x, name='identity')
 
-        maxpool = MaxPooling2D((2, 2), padding='same')(x)
+        #maxpool = MaxPooling2D((2, 2), padding='same')(x)
 
-        avgpool = AveragePooling2D((2, 2), padding='same')(x)
+        #avgpool = AveragePooling2D((2, 2), padding='same')(x)
 
-        x = tf.add(maxpool, avgpool)
+        #x = tf.add(maxpool, avgpool)
 
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
 
