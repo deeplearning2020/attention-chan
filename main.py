@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GassianNoise
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
@@ -22,10 +22,12 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
     x = Conv_2D(64, 1, strides = 1)(x)
+    x = GaussianNoise(0.2)(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = SpatialAttention(64)(x)
     #for i in range(10):
         #x = Resnet_block(64, 3)(x)
+    x = GaussianNoise(0.2)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     #x = ChannelAttention(32, reduction = 1)(x)
     x = SpatialAttention(32)(x)
