@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, BatchNormalization, AveragePooling2D
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
@@ -22,7 +22,7 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
     x = Conv_2D(64, 5, strides = 1)(x)
-    x = AveragePooling2D((2, 2), padding='same')(x)
+    x = MaxPooling2D((2, 2), padding='same')(x)
     x = Deconv(64, 3, strides = 2)(x)
     x = ChannelAttention(64, reduction = 1)(x)
     for i in range(5):
@@ -30,7 +30,6 @@ def model(inputShape):
     x = Conv_2D(32, 5, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     x = Deconv(16, 3, strides = 2)(x)
-    x = AveragePooling2D((2, 2), padding='same')(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -59,7 +58,7 @@ def main():
             patience = 25) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 1000,
+                epochs = 500,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
