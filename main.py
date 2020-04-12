@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GassianNoise
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import ConvATT, Conv_2D, Deconv
