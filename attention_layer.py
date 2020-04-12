@@ -45,6 +45,8 @@ class SpatialAttention(object):
 
         #x = tf.add(maxpool, avgpool)
 
+        x = Conv2D(self.filters, kernel_size = 1, activation = 'relu')(x)
+
         x = Conv2D(self.filters, kernel_size = 1, activation = 'sigmoid')(x)
 
         x = tf.multiply(skip_conn, x)
