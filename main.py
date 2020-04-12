@@ -56,7 +56,7 @@ def main():
     optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
-    es = EarlyStopping(monitor = 'mean_squared_logarithmic_error', mode = 'min', verbose = 1, 
+    es = EarlyStopping(monitor = 'mse', mode = 'min', verbose = 1, 
             patience = 25) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
