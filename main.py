@@ -24,13 +24,11 @@ def model(inputShape):
     x = Conv_2D(64, 1, strides = 1)(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = ChannelAttention(64, reduction = 1)(x)
-    x = UpSampling2D()(x)
     #x = SpatialAttention(64)(x)
     #for i in range(10):
         #x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
-    x = UpSampling2D()(x)
     #x = SpatialAttention(32)(x)
     x = Conv_2D(16, 1, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
