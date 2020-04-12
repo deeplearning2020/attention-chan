@@ -22,7 +22,6 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(128, 3, strides = 1)(input_img)
     x = Conv_2D(64, 5, strides = 1)(x)
-    x = MaxPooling2D((2, 2), padding='same')(x)
     x = Deconv(64, 3, strides = 2)(x)
     x = ChannelAttention(64, reduction = 1)(x)
     x = SpatialAttention(64)(x)
