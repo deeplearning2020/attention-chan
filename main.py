@@ -27,7 +27,7 @@ def model(inputShape):
     x = SpatialAttention(64)(x)
     for i in range(5):
         x = Resnet_block(64, 3)(x)
-    x = Deconv(32, 5, strides = 2)(x)
+    x = Deconv(32, 5, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
     #x = SpatialAttention(32)(x)
     x = Deconv(16, 3, strides = 1)(x)
