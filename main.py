@@ -20,7 +20,7 @@ from util import Resnet_block
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = Conv2D(128, 3, strides = 1)(input_img)
+    x = Conv2D(128, 3, strides = 1, padding = 'same')(input_img)
     x = SpatialAttention(128)(x)
     x = Conv_2D(128, 5, strides = 1)(x)
     x = GaussianNoise(0.2)(x)
@@ -32,7 +32,7 @@ def model(inputShape):
     x = GaussianNoise(0.2)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Conv_2D(16, 3, strides = 1)(x)
-    x = Conv2D(3, 3, strides = 1)(x)
+    x = Conv2D(3, 3, strides = 1, padding = 'same')(x)
     model = Model(input_img, x)
     return model
 
