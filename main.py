@@ -24,12 +24,12 @@ def model(inputShape):
     x = Conv_2D(64, 1, strides = 1)(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = ChannelAttention(64, reduction = 1)(x)
-    #x = SpatialAttention(64)(x)
+    x = SpatialAttention(64)(x)
     for i in range(10):
         x = Resnet_block(64, 3)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = ChannelAttention(32, reduction = 1)(x)
-    #x = SpatialAttention(32)(x)
+    x = SpatialAttention(32)(x)
     x = Conv_2D(16, 1, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
@@ -56,7 +56,7 @@ def main():
     optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
-    es = EarlyStopping(monitor = 'mse', mode = 'min', verbose = 1, 
+    es = EarlyStopping(monitor = loss , mode = 'min', verbose = 1, 
             patience = 25) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
