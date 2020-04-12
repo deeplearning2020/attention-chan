@@ -65,7 +65,7 @@ def main():
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
             patience = 25) ## early stopping to prevent overfitting
 
-    history = nn.fit(hr_image, lr_image,
+    history = nn.fit(lr_image, hr_image,
                 epochs = 600,
                 batch_size = batchSize, callbacks = [es])
 
