@@ -23,12 +23,15 @@ def model(inputShape):
     x = simple_conv(128, 3, strides = 1,)(input_img)
     x = Deconv(128, 3, strides = 1)(x)
     x = Conv_2D(128, 3, strides = 1)(x)
+    x = SpatialAttention(128)(x)
     x = simple_conv(64, 3 , strides = 1)(x)
     x = Deconv(64, 3, strides = 1)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
+    x = SpatialAttention(64)(x)
     x = simple_conv(32, 3, strides = 1)(x)
     x = Deconv(32, 3, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
+    x - SpatialAttention(32)(x)
     x = simple_conv(16, 3, strides = 1)(x)
     x = Deconv(16, 3, strides = 1)(x)
     x = Conv_2D(16, 3, strides = 1)(x)
@@ -60,7 +63,7 @@ def model(inputShape):
 def main():
 
     inputShape = (None, None, 3)
-    batchSize = 2
+    batchSize = 8
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'))
             #target_size = inputShape[:-1]) ## loading the high-resolution image
