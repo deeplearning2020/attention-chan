@@ -24,7 +24,7 @@ def model(inputShape):
     x = Conv_2D(512, 5, strides = 1)(x)
     x = Conv_2D(256, 5, strides = 1)(x)
     x = Conv_2D(128, 5, strides = 1)(x)
-    num_res_net_blocks = 40
+    num_res_net_blocks = 20
     for i in range(num_res_net_blocks):
         x = res_net_block(x, 128, 1)
     x = Conv_2D(64, 5, strides = 1)(x)
