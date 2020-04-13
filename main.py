@@ -20,8 +20,12 @@ from util import Resnet_block
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = Conv_2D(128, 3, strides = 1,)(input_img)
-    x = SpatialAttention(128)(x)
+    x = simple_conv(128, 3, strides = 1,)(input_img)
+    x = simple_conv(64, 3 , strides = 1)(x)
+    x = simple_conv(32, 3, strides = 1)(x)
+    x = SelfAttention(ch = 32)
+    #x = SpatialAttention(128)(x)
+    """
     x = Conv_2D(128, 5, strides = 1)(x)
     x = Conv_2D(128, 3, strides = 1)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
@@ -37,6 +41,7 @@ def model(inputShape):
     x = Conv_2D(16, 5, strides = 1)(x)
     x = Conv_2D(16, 2, strides = 1)(x)
     x = simple_conv(8, 3, strides = 1)(x)
+    """
     x = simple_conv(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
