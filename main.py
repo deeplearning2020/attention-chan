@@ -36,9 +36,6 @@ def model(inputShape):
     x = Conv_2D(16, 3, strides = 1)(x)
     x = Conv_2D(8, 3, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
-    avgpool = AveragePooling2D(2, strides = 1, padding = 'same')(x)
-    maxpool = MaxPooling2D(2, strides = 1, padding = 'same')(x)
-    x = tf.multiply(avgpool, maxpool)
     model = Model(input_img, x)
     return model
 

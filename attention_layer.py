@@ -44,6 +44,9 @@ class SpatialAttention(object):
         #avgpool = AveragePooling2D((2, 2), padding='valid')(x)
 
         #x = tf.add(maxpool, avgpool)
+        avgpool = AveragePooling2D(2, strides = 1, padding = 'same')(x)
+        maxpool = MaxPooling2D(2, strides = 1, padding = 'same')(x)
+        x = tf.multiply(avgpool, maxpool)
 
         x = Conv2D(self.filters, kernel_size = 1, activation = 'relu')(x)
 
