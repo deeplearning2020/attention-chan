@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPool2D
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import Conv_2D, simple_conv, Deconv
@@ -20,38 +20,25 @@ from util import Resnet_block
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = simple_conv(128, 3, strides = 1,)(input_img)
-    x = Deconv(128, 3, strides = 1)(x)
+    x = Conv_2D(128, 5, strides = 1)(input_img)
     x = Conv_2D(128, 3, strides = 1)(x)
-    x = SpatialAttention(128)(x)
-    x = simple_conv(64, 3 , strides = 1)(x)
-    x = Deconv(64, 3, strides = 1)(x)
-    x = Conv_2D(64, 3, strides = 1)(x)
-    x = simple_conv(128, 3, strides = 1)(x)
-    x = Deconv(128, 3, strides = 1)(x)
-    x = Conv_2D(128, 3, strides = 1)(x)
-    x = simple_conv(64, 3, strides = 1)(x)
-    x = Deconv(64, 3, strides = 1)(x)
-    x = Conv_2D(64, 3, strides = 1)(x)
-    #x = SpatialAttention(128)(x)
-    """
-    x = Conv_2D(128, 5, strides = 1)(x)
-    x = Conv_2D(128, 3, strides = 1)(x)
-    x = Conv_2D(64, 3, strides = 1)(x)
-    x = SpatialAttention(64)(x)
+    x = Conv_2D(64, 1, strides = 1)(x)
+    #x = SpatialAttention(64)(x)
+    x = MaxPool2D(2, strides = 2)(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
-    x = Conv_2D(32, 3, strides = 1)(x)
-    x = SpatialAttention(32)(x)
+    x = Conv_2D(32, 1, strides = 1)(x)
+    #x = SpatialAttention(32)(x)
+    x = MaxPool2D(2, strides = 2)(x)
     x = Conv_2D(32, 5, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
-    x = Conv_2D(16, 3, strides = 1)(x)
-    x = SpatialAttention(16)(x)
+    x = Conv_2D(16, 1, strides = 1)(x)
+    #x = SpatialAttention(16)(x)
+    x = MaxPool2D(2, strides = 2)(x)
     x = Conv_2D(16, 5, strides = 1)(x)
-    x = Conv_2D(16, 2, strides = 1)(x)
-    x = simple_conv(8, 3, strides = 1)(x)
-    """
-    x = simple_conv(3, 3, strides = 1)(x)
+    x = Conv_2D(16, 3, strides = 1)(x)
+    x = Conv_2D(8, 3, strides = 1)(x)
+    x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
