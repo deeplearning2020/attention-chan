@@ -9,7 +9,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPool2D
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
 from util import Conv_2D, simple_conv, Deconv
@@ -24,21 +24,21 @@ def model(inputShape):
     x = Conv_2D(128, 3, strides = 1)(x)
     x = Conv_2D(64, 1, strides = 1)(x)
     #x = SpatialAttention(64)(x)
-    x = MaxPool2D(2, strides = 1, padding = 'same')(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
     x = Conv_2D(32, 1, strides = 1)(x)
     #x = SpatialAttention(32)(x)
-    x = MaxPool2D(2, strides = 1, padding = 'same')(x)
     x = Conv_2D(32, 5, strides = 1)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Conv_2D(16, 1, strides = 1)(x)
     #x = SpatialAttention(16)(x)
-    x = MaxPool2D(2, strides = 1, padding = 'same')(x)
     x = Conv_2D(16, 5, strides = 1)(x)
     x = Conv_2D(16, 3, strides = 1)(x)
     x = Conv_2D(8, 3, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
+    avgpool = AveragePooling2D(2, strides = 1, padding = 'same')(x)
+    maxpool = MaxPooling2D(2, strides = 1, padding = 'same')(x)
+    x = tf.multiply(avgpool, maxpool)
     model = Model(input_img, x)
     return model
 
