@@ -12,7 +12,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
-from util import ConvATT, Conv_2D, simple_conv
+from util import Conv_2D, simple_conv, Deconv
 from layers import SelfAttention
 from attention_layer import ChannelAttention, SpatialAttention
 from util import Resnet_block
@@ -21,9 +21,17 @@ from util import Resnet_block
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = simple_conv(128, 3, strides = 1,)(input_img)
+    x = Deconv(128, 3, strides = 1)(x)
+    x = Conv_2D(128, 3, strides = 1)(x)
     x = simple_conv(64, 3 , strides = 1)(x)
+    x = Deconv(64, 3, strides = 1)(x)
+    x = Conv_2D(64, 3, strides = 1)(x)
     x = simple_conv(32, 3, strides = 1)(x)
-    x = SelfAttention(ch = 32)(x)
+    x = Deconv(32, 3, strides = 1)(x)
+    x = Conv_2D(32, 3, strides = 1)(x)
+    x = simple_conv(16, 3, strides = 1)(x)
+    x = Deconv(16, 3, strides = 1)(x)
+    x = Conv_2D(16, 3, strides = 1)(x)
     #x = SpatialAttention(128)(x)
     """
     x = Conv_2D(128, 5, strides = 1)(x)
@@ -74,7 +82,7 @@ def main():
             patience = 25) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 600,
+                epochs = 1000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
