@@ -24,9 +24,11 @@ def model(inputShape):
     x = Conv_2D(512, 1, strides = 1)(x)
     x = Conv_2D(256, 1, strides = 1)(x)
     x = Conv_2D(128, 1, strides = 1)(x)
+    x = SpatialAttention(128)(x)
     num_res_net_blocks = 10
     for i in range(num_res_net_blocks):
         x = res_net_block(x, 128, 3)
+    x = SpatialAttention(128)(x)
     x = Conv_2D(64, 1, strides = 1)(x)
     x = Conv_2D(32, 1, strides = 1)(x)
     x = Conv_2D(16, 1, strides = 1)(x)
