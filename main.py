@@ -30,13 +30,10 @@ def model(inputShape):
     x = Attention(64)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Conv_2D(32, 5, strides = 1)(x)
-    x = Attention(32)(x)
     x = Conv_2D(16, 3, strides = 1)(x)
     x = Conv_2D(16, 5, strides = 1)(x)
-    x = Attention(16)(x)
     x = Conv_2D(8, 3, strides = 1)(x)
     x = Conv_2D(8, 5, strides = 1)(x)
-    x = Attention(8)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -65,7 +62,7 @@ def main():
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
-            patience = 70) ## early stopping to prevent overfitting
+            patience = 700) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
                 epochs = 2000,
