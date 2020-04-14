@@ -11,7 +11,9 @@ class Attention(object):
     def __call__(self, x):
         maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
         avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
-        x = tf.add(maxpool,avgpool)
+        maxpool_2 = MaxPooling2D(pool_size = 2, strides = 1, padding = 'same')(x)
+        avgpool_2 = AveragePooling2D(pool_size = 2, strides = 1, padding = 'same')
+        x = tf.add(maxpool,avgpool, maxpool_2, avgpool_2)
         g1 = Conv2D(self.filters, kernel_size = 1)(x) 
         g1 = BatchNormalization()(g1)
         x1 = Conv2D(self.filters, kernel_size = 1)(x) 
