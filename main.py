@@ -68,7 +68,7 @@ def main():
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
-            patience = 25) ## early stopping to prevent overfitting
+            patience = 50) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
                 epochs = 1000,
