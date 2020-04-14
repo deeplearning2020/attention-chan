@@ -19,10 +19,10 @@ class Attention(object):
         x2 = BatchNormalization()(x1)
         g3 = Conv2D(self.filters, kernel_size = 1)(x) 
         g3 = BatchNormalization()(g1)
-        x4 = Conv2D(self.filters, kernel_size = 1)(x) 
-        x4 = BatchNormalization()(x1)
+        x3 = Conv2D(self.filters, kernel_size = 1)(x) 
+        x3 = BatchNormalization()(x1)
         
-        g1_x1 = Add()([g1, x1,g2, x2, g3, x3, g4, x4])
+        g1_x1 = Add()([g1, x1,g2, x2,g3, x3])
         psi = Activation('relu')(g1_x1)
         psi = Conv2D(1,kernel_size = 1)(psi) 
         psi = BatchNormalization()(psi)
