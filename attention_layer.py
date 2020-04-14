@@ -9,6 +9,9 @@ class Attention(object):
         super(Attention, self).__init__()
         self.filters = filters
     def __call__(self, x):
+        maxpool = MaxPooling2D(pool_size = 2, padding = 'same')(x)
+        avgpool = AveragePooling2D(pool_size = 2, padding = 'same')(x)
+        x = Add()([maxpool, avgpool])
         g1 = Conv2D(self.filters, kernel_size = 1)(x) 
         g1 = BatchNormalization()(g1)
         x1 = Conv2D(self.filters, kernel_size = 1)(x) 
