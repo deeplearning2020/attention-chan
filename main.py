@@ -20,20 +20,19 @@ from resnet import res_net_block
 from subpixel import SubpixelConv2D
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = simple_conv(512, 3, strides = 1)(input_img)
-    x = Attention(512)(x)
-    #x = SubpixelConv2D(upsampling_factor = 2)(x)
-    x = simple_conv(256, 3, strides = 1)(x)
+    x = simple_conv(256, 3, strides = 1)(input_img)
     x = Attention(256)(x)
     #x = SubpixelConv2D(upsampling_factor = 2)(x)
     x = simple_conv(128, 3, strides = 1)(x)
     x = Attention(128)(x)
+    #x = SubpixelConv2D(upsampling_factor = 2)(x)
     x = simple_conv(64, 3, strides = 1)(x)
+    x = Attention(64)(x)
     x = simple_conv(32, 3, strides = 1)(x)
+    x = simple_conv(16, 3, strides = 1)(x)
     #num_res_net_blocks = 10
     #for i in range(num_res_net_blocks):
     #    x = res_net_block(x, 128, 5)
-    x = simple_conv(16, 3, strides = 1)(x)
     x = simple_conv(8, 3, strides = 1)(x)
     x = simple_conv(3, 3, strides = 1)(x)
     model = Model(input_img, x)
