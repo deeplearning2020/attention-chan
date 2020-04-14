@@ -17,32 +17,27 @@ from layers import SelfAttention
 from attention_layer import ChannelAttention, SpatialAttention, Attention
 from util import Resnet_block
 from resnet import res_net_block
-from subpixel import SubpixelConv2D
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = Conv_2D(256, 3, strides = 1)(input_img)
     x = Conv_2D(256, 5, strides = 1)(x)
     x = Attention(256)(x)
-    #x = SubpixelConv2D(upsampling_factor = 2)(x)
     x = Conv_2D(128, 3, strides = 1)(x)
     x = Conv_2D(128, 5, strides = 1)(x)
     x = Attention(128)(x)
-    #x = SubpixelConv2D(upsampling_factor = 2)(x)
     x = Conv_2D(64, 3, strides = 1)(x)
     x = Conv_2D(64, 5, strides = 1)(x)
     x = Attention(64)(x)
     x = Conv_2D(32, 3, strides = 1)(x)
     x = Conv_2D(32, 5, strides = 1)(x)
+    x = Attention(32)(x)
     x = Conv_2D(16, 3, strides = 1)(x)
     x = Conv_2D(16, 5, strides = 1)(x)
-    #num_res_net_blocks = 10
-    #for i in range(num_res_net_blocks):
-    #    x = res_net_block(x, 128, 5)
+    x = Attention(16)(x)
     x = Conv_2D(8, 3, strides = 1)(x)
     x = Conv_2D(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
-
 
 
 
@@ -68,17 +63,17 @@ def main():
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
-            patience = 50) ## early stopping to prevent overfitting
+            patience = 70) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 1000,
+                epochs = 2000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
     pred = nn.predict(lr_image)
     pred = np.uint8((pred + 1)* 255/2)
     pred = Image.fromarray(pred[0])
-    pred.save("reconstructed_HR_image.png")
+    pred.save("re.png")
 
 if __name__ == "__main__":
     main()
