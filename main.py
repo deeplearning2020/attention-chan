@@ -31,7 +31,6 @@ def model(inputShape):
     x = Conv_2D(32, 5, strides = 1)(x)
     x = Conv_2D(16, 5, strides = 1)(x)
     x = Conv_2D(8, 5, strides = 1)(x)
-    x = SpatialAttention(8)(x)
     x = Conv_2D(3, 5, strides = 1)(x)
     model = Model(input_img, x)
     return model
