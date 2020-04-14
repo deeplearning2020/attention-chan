@@ -1,6 +1,28 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, AveragePooling2D
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Add, Activation, Multiply
 from tensorflow.keras.layers import BatchNormalization
+
+
+
+class Attention(object):
+    def __init__(self, filters):
+        super(Attention, self).__init__()
+        self.filters = filters
+    def __call__(self, x):
+        g1 = Conv2D(self.filters, kernel_size = 1)(x) 
+        g1 = BatchNormalization()(g1)
+        x1 = Conv2D(self.filters, kernel_size = 1)(x) 
+        x1 = BatchNormalization()(x1)
+        
+        g1_x1 = Add()([g1,x1])
+        psi = Activation('relu')(g1_x1)
+        psi = Conv2D(1,kernel_size = 1)(psi) 
+        psi = BatchNormalization()(psi)
+        psi = Activation('sigmoid')(psi)
+        x = Multiply()([x,psi])
+        return x
+
+
 
 class ChannelAttention(object):
 
