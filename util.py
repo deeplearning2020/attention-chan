@@ -58,9 +58,9 @@ class Conv_2D(object):
 
     def __call__(self, x, training = None):
 
-        x = SeparableConv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
+        x = SeparableConv2D(self.filters, self.kernelSize, strides = self.strides, activation = 'relu', padding = 'same')(x)
         x = BatchNormalization()(x)
-        x = LeakyReLU()(x)
+        #x = LeakyReLU()(x)
         return x
 
 
