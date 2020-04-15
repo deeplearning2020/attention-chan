@@ -22,7 +22,7 @@ class AttentionBlock(object):
         x1 = SeparableConv2D(self.filters, kernel_size = 1)(x) 
         #x1 = BatchNormalization()(x1)
 
-        g2 = SeparableConv2D(self.filters, kernel_size = 1)(x) 
+        g2 = Conv2D(self.filters, kernel_size = 1)(x) 
         #g2 = BatchNormalization()(g2)
 
         x2 = Conv2D(self.filters, kernel_size = 1)(x) 
