@@ -12,29 +12,26 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
-from util import Conv_2D, Deconv, Conv_2D
-from layers import SelfAttention
-from attention_layer import ChannelAttention, SpatialAttention, Attention
-from util import Resnet_block
-from resnet import res_net_block
+from layers import DepthwiseSeparableConv_Block, AttentionBlock
+
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = Conv_2D(256, 3, strides = 1)(input_img)
-    x = Conv_2D(256, 5, strides = 1)(x)
-    x = Attention(256)(x)
-    x = Conv_2D(128, 3, strides = 1)(x)
-    x = Conv_2D(128, 5, strides = 1)(x)
-    x = Attention(128)(x)
-    x = Conv_2D(64, 3, strides = 1)(x)
-    x = Conv_2D(64, 5, strides = 1)(x)
-    x = Attention(64)(x)
-    x = Conv_2D(32, 3, strides = 1)(x)
-    x = Conv_2D(32, 5, strides = 1)(x)
-    x = Conv_2D(16, 3, strides = 1)(x)
-    x = Conv_2D(16, 5, strides = 1)(x)
-    x = Conv_2D(8, 3, strides = 1)(x)
-    x = Conv_2D(8, 5, strides = 1)(x)
-    x = Conv_2D(3, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(256, 1, strides = 1)(input_img)
+    x = DepthwiseSeparableConv_Block(256, 3, strides = 1)(x)
+    x = AttentionBlock(256)(x)
+    x = DepthwiseSeparableConv_Block(128, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(x)
+    x = AttentionBlock(128)(x)
+    x = DepthwiseSeparableConv_Block(64, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
+    x = AttentionBlock(64)(x)
+    x = DepthwiseSeparableConv_Block(32, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(8, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
@@ -65,7 +62,7 @@ def main():
             patience = 700) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 3000,
+                epochs = 4000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """

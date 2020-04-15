@@ -1,67 +1,92 @@
 import tensorflow as tf
-from tensorflow.python.keras.layers import Input, Layer, InputSpec, Flatten
-from tensorflow.python.keras.initializers import RandomNormal
+from tensorflow.keras.layers import (Conv2D, SeparableConv2D, Conv2DTranspose,
+            BatchNormalization, AveragePooling2D, MaxPooling2D, LeakyReLU, Add, Activation)
 
-class SelfAttention(Layer):
 
-    def __init__(self, ch, **kwargs):
 
-        super(SelfAttention, self).__init__(**kwargs)
-        self.channels = ch
-        self.filters_f_g = self.channels // 8
-        self.filters_h = self.channels
+class AttentionBlock(object):
+    def __init__(self, filters):
 
-    def build(self, input_shape):
+        super(AttentionBlock, self).__init__()
+        self.filters = filters
 
-        self.init = RandomNormal(stddev = 0.04)
-        kernel_shape_f_g = (1, 1) + (self.channels, self.filters_f_g)
-        kernel_shape_h = (1, 1) + (self.channels, self.filters_h)
-        self.gamma = self.add_weight(name = 'gamma', shape = [1], initializer = self.init, trainable=True)
+    def __call__(self, x):
 
-        self.kernel_f = self.add_weight(shape = kernel_shape_f_g,
-                                        initializer = self.init,
-                                        name = 'kernel_f',
-                                        trainable = True)
-        self.kernel_g = self.add_weight(shape =kernel_shape_f_g,
-                                        initializer = self.init,
-                                        name = 'kernel_g',
-                                        trainable = True)
-        self.kernel_h = self.add_weight(shape=kernel_shape_h,
-                                        initializer = self.init,
-                                        name = 'kernel_h',
-                                        trainable = True)
+        maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
+        avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)      
+        x = tf.multiply(maxpool, avgpool)
 
-        super(SelfAttention, self).build(input_shape)
+        g1 = Conv2D(self.filters, kernel_size = 1)(x) 
+        g1 = BatchNormalization()(g1)
 
-        self.input_spec = InputSpec(ndim = 4,
-                                    axes = {3: input_shape[-1]})
-        self.built = True
+        x1 = Conv2D(self.filters, kernel_size = 1)(x) 
+        x1 = BatchNormalization()(x1)
 
-    def call(self, x):
+        g2 = Conv2D(self.filters, kernel_size = 1)(x) 
+        g2 = BatchNormalization()(g1)
+
+        x2 = Conv2D(self.filters, kernel_size = 1)(x) 
+        x2 = BatchNormalization()(x1)
+
+        g3 = Conv2D(self.filters, kernel_size = 1)(x) 
+        g3 = BatchNormalization()(g1)
+
+        x3 = Conv2D(self.filters, kernel_size = 1)(x) 
+        x3 = BatchNormalization()(x1)
         
-        def hw_flatten(x):
-            x_shape = tf.shape(x)
-            return tf.reshape(x, [x_shape[0], -1, x_shape[-1]]) 
+        g1_x1 = Add()([g1, x1,g2, x2,g3, x3])
+        psi = Activation('relu')(g1_x1)
 
-        f = tf.nn.conv2d(x,
-                     filter = self.kernel_f,
-                     strides = (1, 1), padding = 'SAME')
+        psi = Conv2D(1,kernel_size = 1)(psi) 
+        psi = BatchNormalization()(psi)
+        psi = Activation('tanh')(psi)
 
-        g = tf.nn.conv2d(x,
-                     filter = self.kernel_g,
-                     strides = (1, 1), padding = 'SAME')
-
-        h = tf.nn.conv2d(x,
-                     filter = self.kernel_h,
-                     strides = (1, 1), padding = 'SAME')
-
-        s = tf.matmul(hw_flatten(g), hw_flatten(f), transpose_b = True)
-        beta = tf.nn.softmax(s, axis = -1)
-        o = tf.matmul(beta, hw_flatten(h))
-        o = tf.reshape(o, shape = tf.shape(x))
-        x = self.gamma * o + x
-
+        x = tf.multiply(x,psi)
         return x
 
-    def compute_output_shape(self, input_shape):
-        return input_shape
+
+class DepthwiseSeparableConv_Block(object):
+
+    def __init__(self, filters, kernelSize, strides = 1):
+
+        self.filters = filters
+        self.kernelSize = kernelSize
+        self.strides = strides
+
+    def __call__(self, x, training = None):
+
+        x = SeparableConv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
+        x = BatchNormalization()(x)
+        x = LeakyReLU()(x)
+        return x
+
+
+class Deconv_Block(object):
+
+    def __init__(self, filters, kernelSize, strides = 1):
+
+        self.filters = filters
+        self.kernelSize = kernelSize
+        self.strides = strides
+
+    def __call__(self, x, training = None):
+
+        x = Conv2DTranspose(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
+        x = BatchNormalization()(x)
+        x = LeakyReLU()(x)
+        return x
+
+class Conv_Block(object):
+
+    def __init__(self, filters, kernelSize, strides = 1):
+        self.filters = filters
+        self.kernelSize = kernelSize
+        self.strides = strides
+
+    def __call__(self, x, training = None):
+
+        x = Conv2D(self.filters, self.kernelSize, strides = self.strides, padding = 'same')(x)
+        x = BatchNormalization()(x)
+        x = LeakyReLU()(x)
+        return x
+
