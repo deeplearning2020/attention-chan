@@ -27,7 +27,7 @@ def compare_images(target, ref):
     scores.append(ssim(target, ref, multichannel =True))
     return scores
 
-target = cv2.imread('reconstructed.png')
+target = cv2.imread('re.png')
 ref = cv2.imread('HR.bmp')
 
 scores = compare_images(target, ref)

@@ -16,21 +16,21 @@ from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = DepthwiseSeparableConv_Block(256, 1, strides = 1)(input_img)
-    x = DepthwiseSeparableConv_Block(256, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(256, 3, strides = 1)(input_img)
+    x = DepthwiseSeparableConv_Block(256, 5, strides = 1)(x)
     x = AttentionBlock(256)(x)
-    x = DepthwiseSeparableConv_Block(128, 1, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
     x = AttentionBlock(128)(x)
-    x = DepthwiseSeparableConv_Block(64, 1, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
     x = AttentionBlock(64)(x)
-    x = DepthwiseSeparableConv_Block(32, 1, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(16, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(32, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(8, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -62,7 +62,7 @@ def main():
             patience = 700) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 4000,
+                epochs = 5000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
