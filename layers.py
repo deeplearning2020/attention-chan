@@ -17,19 +17,19 @@ class AttentionBlock(object):
         x = tf.multiply(maxpool, avgpool)
 
         g1 = Conv2D(self.filters, kernel_size = 1)(x) 
-        g1 = BatchNormalization()(g1)
+       # g1 = BatchNormalization()(g1)
 
         x1 = Conv2D(self.filters, kernel_size = 1)(x) 
-        x1 = BatchNormalization()(x1)
+        #x1 = BatchNormalization()(x1)
 
         g2 = Conv2D(self.filters, kernel_size = 1)(x) 
-        g2 = BatchNormalization()(g2)
+        #g2 = BatchNormalization()(g2)
 
         x2 = Conv2D(self.filters, kernel_size = 1)(x) 
-        x2 = BatchNormalization()(x2)
+        #x2 = BatchNormalization()(x2)
 
         g3 = Conv2D(self.filters, kernel_size = 1)(x) 
-        g3 = BatchNormalization()(g3)
+        #g3 = BatchNormalization()(g3)
 
         
         g1_x1 = Add()([g1, x1, g2, x2, g3])
