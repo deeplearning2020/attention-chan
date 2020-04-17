@@ -37,7 +37,7 @@ def model(inputShape):
     return model
 
 def adv_loss(y_true, y_pred):
-    return tf.reduce_mean(binary_crossentropy(y_pred, y_true), axis=-1)
+    return tf.reduce_mean(binary_crossentropy(y_pred, y_true))
 
 def main():
 
@@ -60,7 +60,7 @@ def main():
     optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = adv_loss)
     
-    es = EarlyStopping(monitor = adv_loss , mode = 'min', verbose = 1, 
+    es = EarlyStopping(monitor = loss , mode = 'min', verbose = 1, 
             patience = 700) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
