@@ -11,7 +11,7 @@ from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.metrics import BinaryCrossentropy
+from tensorflow.keras.backend import binary_crossentropy
 from matplotlib import pyplot as plt
 from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
@@ -37,7 +37,7 @@ def model(inputShape):
     return model
 
 def adv_loss(y_true, y_pred):
-    return tf.reduce_mean(BinaryCrossentropy(y_pred, y_true), axis=-1)
+    return tf.reduce_mean(binary_crossentropy(y_pred, y_true), axis=-1)
 
 def main():
 
