@@ -37,7 +37,7 @@ def model(inputShape):
     return model
 
 def adv_loss(y_true, y_pred):
-    return tf.mean(BinaryCrossentropy(y_pred, y_true), axis=-1)
+    return tf.reduce_mean(BinaryCrossentropy(y_pred, y_true), axis=-1)
 
 def main():
 
