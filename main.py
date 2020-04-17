@@ -11,7 +11,7 @@ from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import BinaryCrossentropy
+from tensorflow.keras.metrics import BinaryCrossentropy
 from matplotlib import pyplot as plt
 from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
