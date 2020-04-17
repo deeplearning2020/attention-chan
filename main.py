@@ -11,6 +11,7 @@ from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import BinaryCrossentropy
 from matplotlib import pyplot as plt
 from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
@@ -35,7 +36,8 @@ def model(inputShape):
     model = Model(input_img, x)
     return model
 
-
+def adv_loss(y_true, y_pred):
+    return tf.mean(BinaryCrossentropy(y_pred, y_true), axis=-1)
 
 def main():
 
@@ -58,7 +60,7 @@ def main():
     optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
-    es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
+    es = EarlyStopping(monitor = adv_loss , mode = 'min', verbose = 1, 
             patience = 700) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
