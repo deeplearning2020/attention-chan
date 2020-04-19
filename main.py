@@ -33,7 +33,6 @@ def model(inputShape):
     x = DepthwiseSeparableConv_Block(16, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
-    x = AttentionBlock(8)(x)
     x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -44,13 +43,13 @@ def main():
     inputShape = (None, None, 3)
     batchSize = 4
 
-    hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.bmp'))
+    hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.png'))
             #target_size = inputShape[:-1]) ## loading the high-resolution image
     hr_image = np.array(hr_image, dtype = np.float32) * (2/255) - 1
     hr_image = np.array([hr_image]*batchSize) ## creating fake batches
 
 
-    lr_image = load_img(os.path.join(os.getcwd(),'lr_image','LR.bmp'))
+    lr_image = load_img(os.path.join(os.getcwd(),'lr_image','LR.png'))
             #target_size = inputShape[:-1]) ## loading the low-resolution image
     lr_image = np.array(lr_image, dtype = np.float32) * (2/255) - 1
     lr_image = np.array([lr_image]*batchSize)
