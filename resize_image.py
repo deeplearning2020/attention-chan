@@ -8,8 +8,8 @@ def prepare_images(path, factor):
         img = cv2.imread(path + '/' + file)
         print(img.shape)
         h, w, _ = img.shape
-        new_height = 256
-        new_width = 256
+        new_height = 200
+        new_width = 200
         img = cv2.resize(img, (int(new_width), int(new_height)), interpolation = cv2.INTER_LINEAR)
         print('Saving {}'.format(file))
         cv2.imwrite((write_path + file), img)

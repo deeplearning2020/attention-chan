@@ -28,7 +28,7 @@ def compare_images(target, ref):
     return scores
 
 target = cv2.imread('re.png')
-ref = cv2.imread('HR.bmp')
+ref = cv2.imread('HR.png')
 
 scores = compare_images(target, ref)
 print(scores)
