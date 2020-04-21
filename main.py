@@ -56,7 +56,7 @@ def main():
 
     nn = model(inputShape)
     print(nn.summary())
-    optimizer = Adam(lr=1e-3, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
