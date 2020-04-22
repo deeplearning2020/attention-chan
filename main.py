@@ -18,21 +18,21 @@ from layers import DepthwiseSeparableConv_Block, AttentionBlock
 def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = DepthwiseSeparableConv_Block(256, 3, strides = 1)(input_img)
-    x = DepthwiseSeparableConv_Block(256, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(256, 5, strides = 1)(x)
     x = AttentionBlock(256)(x)
     x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
     #x = AttentionBlock(128)(x)
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
     #x = AttentionBlock(64)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(32, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(32, 5, strides = 1)(x)
     #x = AttentionBlock(32)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(16, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(16, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
     model = Model(input_img, x)
     return model
@@ -41,7 +41,7 @@ def model(inputShape):
 def main():
 
     inputShape = (None, None, 3)
-    batchSize = 4
+    batchSize = 2
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.png'))
             #target_size = inputShape[:-1]) ## loading the high-resolution image
@@ -56,14 +56,14 @@ def main():
 
     nn = model(inputShape)
     print(nn.summary())
-    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    optimizer = Adam(lr=1e-3, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
             patience = 1000) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 2000,
+                epochs = 4000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
