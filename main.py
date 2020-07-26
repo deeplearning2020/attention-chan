@@ -58,7 +58,7 @@ def main():
 
     nn = model(inputShape)
     print(nn.summary())
-    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+    lr_schedule = ExponentialDecay(
         initial_learning_rate=1e-2,
         decay_steps=10000,
         decay_rate=0.9)
