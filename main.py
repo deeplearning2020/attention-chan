@@ -74,7 +74,7 @@ def main():
             patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 2000,
+                epochs = 1000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """

@@ -43,6 +43,13 @@ class AttentionBlock(object):
         psi = Add()([g1, x1, p1])
         psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
+        g2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
+
+        x2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
+
+        p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
+        psi = Add()([g2, x2, p2])
+        psi = LeakyReLU()(psi)
         psi = Reshape((1, 1, self.filters))(psi)
         psi = Activation('softmax')(psi)
 
