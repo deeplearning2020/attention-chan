@@ -17,13 +17,13 @@ from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = DepthwiseSeparableConv_Block(256, 3, strides = 1)(input_img)
+    x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(input_img)
     #x = DepthwiseSeparableConv_Block(256, 5, strides = 1)(x)
-    x = AttentionBlock(256)(x)
-    x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(x)
-    #x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
-    #x = AttentionBlock(128)(x)
+    x = AttentionBlock(128)(x)
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
+    #x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
+    x = AttentionBlock(64)(x)
+    #x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
     #x = AttentionBlock(64)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
@@ -60,10 +60,10 @@ def main():
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
-            patience = 1000) ## early stopping to prevent overfitting
+            patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 4000,
+                epochs = 2000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
