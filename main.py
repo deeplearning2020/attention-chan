@@ -30,6 +30,7 @@ def model(inputShape):
     #x = DepthwiseSeparableConv_Block(32, 5, strides = 1)(x)
     #x = AttentionBlock(32)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
+    x = AttentionBlock(16)(x)
     #x = DepthwiseSeparableConv_Block(16, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)

@@ -57,7 +57,7 @@ class DepthwiseSeparableConv_Block(object):
 
         #self.init = RandomNormal()
         x = Conv2D(self.filters, kernel_size = self.kernelSize, strides = self.strides, padding = 'same')(x)
-        x = BatchNormalization()(x)
+        #x = BatchNormalization()(x)
         x = LeakyReLU()(x)
         return x
 
