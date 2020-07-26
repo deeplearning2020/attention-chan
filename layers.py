@@ -43,6 +43,8 @@ class AttentionBlock(object):
         psi = Add()([g1, x1, p1])
         psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
+        psi = Reshape((1, 1, self.filters))(psi)
+        psi = Activation('softmax')(psi)
         g2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
 
         x2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
@@ -50,13 +52,10 @@ class AttentionBlock(object):
         p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
         psi = Add()([g2, x2, p2])
         psi = LeakyReLU()(psi)
-        psi = Reshape((1, 1, self.filters))(psi)
-        psi = Activation('softmax')(psi)
-
         psi = Conv2D(1, kernel_size=1, padding='same')(psi)
         psi = BatchNormalization()(psi)
         psi = Activation('sigmoid')(psi)
-        psi = MaxPooling2D(pool_size=(2, 2), padding='same')(psi)
+        #psi = MaxPooling2D(pool_size=(2, 2), padding='same')(psi)
         x = tf.multiply(x, psi)
         return x
 
