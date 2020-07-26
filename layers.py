@@ -40,6 +40,7 @@ class AttentionBlock(object):
         psi = Conv2D(1, kernel_size = 1, padding = 'same')(psi) 
         psi = BatchNormalization()(psi)
         psi = Activation('sigmoid')(psi)
+	psi = MaxPooling2D(pool_size = (2,2) ,padding = 'same')(psi)
         x = tf.multiply(x,psi)
         return x
 
