@@ -40,7 +40,7 @@ def model(inputShape):
 
 def main():
 
-    inputShape = (256, 256, 3)
+    inputShape = (None, None, 3)
     batchSize = 2
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.png'))

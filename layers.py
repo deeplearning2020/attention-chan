@@ -38,7 +38,7 @@ class AttentionBlock(object):
 
         psi = Conv2D(1, kernel_size = 1, padding = 'same')(psi) 
         psi = BatchNormalization()(psi)
-        psi = Activation('tanh')(psi)
+        psi = Activation('sigmoid')(psi)
 
         x = tf.multiply(x,psi)
         return x
