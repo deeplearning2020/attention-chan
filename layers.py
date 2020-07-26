@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import (Conv2D, SeparableConv2D, Conv2DTranspose,
-            BatchNormalization, AveragePooling2D, MaxPooling2D, LeakyReLU, Add, Activation)
+            BatchNormalization, AveragePooling2D, GlobalAveragePooling2D, MaxPooling2D, LeakyReLU, Add, Activation)
 from tensorflow.keras.initializers import RandomNormal
 
 
@@ -14,25 +14,27 @@ class AttentionBlock(object):
     def __call__(self, x):
 
         #self.init = RandomNormal()
-        maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
-        avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)      
-        x = tf.multiply(maxpool, avgpool)
+        #maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
+        #avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)      
+        #x = tf.multiply(maxpool, avgpool)
 
-        g1 = SeparableConv2D(self.filters, kernel_size = 1)(x) 
+        g1 = Conv2D(self.filters, kernel_size = 3)(x) 
 
-        x1 = SeparableConv2D(self.filters, kernel_size = 1)(x) 
+        x1 = Conv2D(self.filters, kernel_size = 5)(x) 
 
-        g2 = Conv2D(self.filters, kernel_size = 1)(x) 
+        p1 = Conv2D(self.filters, kernel_size = 7)(x) 
 
-        x2 = Conv2D(self.filters, kernel_size = 1)(x) 
+        #x2 = Conv2D(self.filters, kernel_size = 1)(x) 
 
-        g3 = Conv2D(self.filters, kernel_size = 1)(x) 
+        #g3 = Conv2D(self.filters, kernel_size = 1)(x) 
 
-        x3 = Conv2D(self.filters, kernel_size = 1)(x)
+        #x3 = Conv2D(self.filters, kernel_size = 1)(x)
 
         
-        g1_x1 = Add()([g1, x1, g2, x2, g3, x3])
+        g1_x1 = Add()([g1, x1, p1])
         psi = LeakyReLU()(g1_x1)
+        psi = GlobalAveragePooling2D()(psi)
+        psi = Reshape((1,1,self.filters))(psi)
 
         psi = Conv2D(1, kernel_size = 1)(psi) 
         psi = BatchNormalization()(psi)
