@@ -18,11 +18,11 @@ class AttentionBlock(object):
         #avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)      
         #x = tf.multiply(maxpool, avgpool)
 
-        g1 = Conv2D(self.filters, kernel_size = 3)(x) 
+        g1 = Conv2D(self.filters, kernel_size = 3, padding = 'same')(x) 
 
-        x1 = Conv2D(self.filters, kernel_size = 5)(x) 
+        x1 = Conv2D(self.filters, kernel_size = 5, padding = 'same')(x) 
 
-        p1 = Conv2D(self.filters, kernel_size = 7)(x) 
+        p1 = Conv2D(self.filters, kernel_size = 7, padding = 'same')(x) 
 
         #x2 = Conv2D(self.filters, kernel_size = 1)(x) 
 
@@ -36,7 +36,7 @@ class AttentionBlock(object):
         psi = GlobalAveragePooling2D()(psi)
         psi = Reshape((1,1,self.filters))(psi)
 
-        psi = Conv2D(1, kernel_size = 1)(psi) 
+        psi = Conv2D(1, kernel_size = 1, padding = 'same')(psi) 
         psi = BatchNormalization()(psi)
         psi = Activation('tanh')(psi)
 
@@ -56,7 +56,7 @@ class DepthwiseSeparableConv_Block(object):
     def __call__(self, x, training = None):
 
         #self.init = RandomNormal()
-        x = SeparableConv2D(self.filters, kernel_size = self.kernelSize, strides = self.strides, padding = 'same')(x)
+        x = Conv2D(self.filters, kernel_size = self.kernelSize, strides = self.strides, padding = 'same')(x)
         x = BatchNormalization()(x)
         x = LeakyReLU()(x)
         return x

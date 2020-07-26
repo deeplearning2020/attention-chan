@@ -40,7 +40,7 @@ def model(inputShape):
 
 def main():
 
-    inputShape = (None, None, 3)
+    inputShape = (256, 256, 3)
     batchSize = 2
 
     hr_image = load_img(os.path.join(os.getcwd(),'hr_image','HR.png'))
@@ -62,9 +62,9 @@ def main():
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
             patience = 1000) ## early stopping to prevent overfitting
 
-    history = nn.fit(lr_image, hr_image,
-                epochs = 4000,
-                batch_size = batchSize, callbacks = [es])
+    #history = nn.fit(lr_image, hr_image,
+                #epochs = 4000,
+                #batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
     pred = nn.predict(lr_image)
