@@ -11,7 +11,7 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
-from tensorflow.keras.optimizers import Adam, SGD
+from tensorflow.keras.optimizers import Adam, SGD, RMSprop
 from tensorflow.keras.backend import binary_crossentropy
 from matplotlib import pyplot as plt
 from layers import DepthwiseSeparableConv_Block, AttentionBlock
@@ -62,10 +62,10 @@ def main():
         initial_learning_rate=1e-2,
         decay_steps=10000,
         decay_rate=0.9)
-    optimizer = Adam(learning_rate=lr_schedule,epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    optimizer = RMSprop(learning_rate=lr_schedule,epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
-    nn.compile(optimizer = optimizer, loss = 'rmse')
+    nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
             patience = 100) ## early stopping to prevent overfitting
