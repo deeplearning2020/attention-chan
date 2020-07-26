@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import (Conv2D, SeparableConv2D, Conv2DTranspose,
-            BatchNormalization, AveragePooling2D, GlobalAveragePooling2D, MaxPooling2D, LeakyReLU, Add, Activation)
+            BatchNormalization, Reshape, AveragePooling2D, GlobalAveragePooling2D, MaxPooling2D, LeakyReLU, Add, Activation)
 from tensorflow.keras.initializers import RandomNormal
 
 
