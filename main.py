@@ -3,6 +3,7 @@ import numpy as np
 import cv2, skimage
 from PIL import Image
 import tensorflow as tf
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
@@ -10,7 +11,7 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras import Input, optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, GaussianNoise, LeakyReLU, MaxPooling2D, AveragePooling2D
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.backend import binary_crossentropy
 from matplotlib import pyplot as plt
 from layers import DepthwiseSeparableConv_Block, AttentionBlock
@@ -57,7 +58,13 @@ def main():
 
     nn = model(inputShape)
     print(nn.summary())
-    optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=1e-2,
+        decay_steps=10000,
+        decay_rate=0.9)
+    optimizer = keras.optimizers.SGD(learning_rate=lr_schedule)
+
+    #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
