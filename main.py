@@ -65,7 +65,7 @@ def main():
     optimizer = Adam(learning_rate=lr_schedule,epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
-    nn.compile(optimizer = optimizer, loss = 'mse')
+    nn.compile(optimizer = optimizer, loss = 'rmse')
     
     es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
             patience = 100) ## early stopping to prevent overfitting
