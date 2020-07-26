@@ -31,15 +31,15 @@ class AttentionBlock(object):
         #x3 = Conv2D(self.filters, kernel_size = 1)(x)
 
         
-        g1_x1 = Add()([g1, x1, p1])
-        psi = LeakyReLU()(g1_x1)
+        psi = Add()([g1, x1, p1])
+        psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
         psi = Reshape((1,1,self.filters))(psi)
         psi = Activation('softmax')(psi)
 
         psi = Conv2D(1, kernel_size = 1, padding = 'same')(psi) 
         psi = BatchNormalization()(psi)
-        psi = LeakyReLU()(psi)
+        psi = Activation('sigmoid')(psi)
         x = tf.multiply(x,psi)
         return x
 
