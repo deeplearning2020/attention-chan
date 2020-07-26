@@ -23,7 +23,6 @@ def model(inputShape):
     x = AttentionBlock(128)(x)
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(128, 5, strides = 1)(x)
-    x = AttentionBlock(64)(x)
     #x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
     #x = AttentionBlock(64)(x)
@@ -61,8 +60,8 @@ def main():
     lr_schedule = ExponentialDecay(
         initial_learning_rate=1e-2,
         decay_steps=10000,
-        decay_rate=0.9)
-    optimizer = RMSprop(learning_rate=lr_schedule,epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+        decay_rate=0.99)
+    optimizer = Ada,(learning_rate=lr_schedule,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
