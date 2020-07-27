@@ -28,11 +28,11 @@ class AttentionBlock(object):
         #avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
         #x = tf.multiply(maxpool, avgpool)
 
-        g1 = Conv2D(self.filters/2, kernel_size=1, padding='same')(x)
+        g1 = Conv2D(self.filters//2, kernel_size=1, padding='same')(x)
 
-        x1 = Conv2D(self.filters/2, kernel_size=1, padding='same')(x)
+        x1 = Conv2D(self.filters//2, kernel_size=1, padding='same')(x)
 
-        p1 = Conv2D(self.filters/2, kernel_size=1, padding='same')(x)
+        p1 = Conv2D(self.filters//2, kernel_size=1, padding='same')(x)
 
         #x2 = Conv2D(self.filters, kernel_size = 1)(x)
 
