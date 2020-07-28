@@ -7,6 +7,7 @@ from tensorflow.keras.layers import (
     Reshape,
     AveragePooling2D,
     GlobalAveragePooling2D,
+    GlobalMaxPooling2D,
     MaxPooling2D,
     LeakyReLU,
     Add,
