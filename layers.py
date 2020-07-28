@@ -24,9 +24,9 @@ class AttentionBlock(object):
     def __call__(self, x):
 
         #self.init = RandomNormal()
-        #maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
-        #avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
-        #x = tf.multiply(maxpool, avgpool)
+        maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
+        avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
+        x = tf.multiply(maxpool, avgpool)
 
         g1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
 
@@ -49,8 +49,8 @@ class AttentionBlock(object):
 
         x2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
 
-        p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
-        psi = Add()([g2, x2, p2])
+        #p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
+        psi = Add()([g2, x2])
         psi = LeakyReLU()(psi)
         psi = Conv2D(1, kernel_size=1, padding='same')(psi)
         psi = BatchNormalization()(psi)
