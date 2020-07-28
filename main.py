@@ -20,12 +20,12 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(input_img)
     x = AttentionBlock(64)(x)
-    x = DepthwiseSeparableConv_Block(64, 7, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
     x = AttentionBlock(32)(x)
-    x = DepthwiseSeparableConv_Block(32, 7, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(16, 7, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
@@ -55,7 +55,7 @@ def main():
         initial_learning_rate=1e-3,
         decay_steps=10000,
         decay_rate=0.99)
-    optimizer = Adam(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
+    optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
