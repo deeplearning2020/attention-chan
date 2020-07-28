@@ -55,7 +55,8 @@ def main():
         initial_learning_rate=1e-3,
         decay_steps=10000,
         decay_rate=0.99)
-    optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
+    optimizer = SGD(learning_rate = 0.001)
+    #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
