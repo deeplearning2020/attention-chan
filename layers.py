@@ -24,15 +24,21 @@ class AttentionBlock(object):
     def __call__(self, x):
 
         #self.init = RandomNormal()
-        maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
-        avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
-        x = tf.multiply(maxpool, avgpool)
+        #maxpool = MaxPooling2D(pool_size = 2,strides = 1, padding = 'same')(x)
+        #avgpool = AveragePooling2D(pool_size = 2, strides = 1,padding = 'same')(x)
+        #x = tf.multiply(maxpool, avgpool)
 
         g1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
+        g1 = GlobalAveragePooling2D()(g1)
+        g1 = Reshape((1, 1, self.filters))(g1)
 
         x1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
+        x1 = GlobalAveragePooling2D()(x1)
+        x1 = Reshape((1, 1, self.filters))(x1)
 
         p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
+        p1 = GlobalAveragePooling2D()(p1)
+        p1 = Reshape((1, 1, self.filters))(p1)
 
         #x2 = Conv2D(self.filters, kernel_size = 1)(x)
 
@@ -41,7 +47,7 @@ class AttentionBlock(object):
         #x3 = Conv2D(self.filters, kernel_size = 1)(x)
 
         psi = Add()([g1, x1, p1])
-        psi = LeakyReLU()(psi)
+        #psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
         psi = Reshape((1, 1, self.filters))(psi)
         psi = Activation('softmax')(psi)
