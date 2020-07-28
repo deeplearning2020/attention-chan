@@ -20,12 +20,12 @@ def model(inputShape):
     input_img = Input(shape=(inputShape))
     x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(input_img)
     x = AttentionBlock(64)(x)
-    x = DepthwiseSeparableConv_Block(64, 5, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(64, 7, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
     x = AttentionBlock(32)(x)
-    x = DepthwiseSeparableConv_Block(32, 5, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(32, 7, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 7, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(8, 5, strides = 1)(x)
     x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
@@ -65,7 +65,7 @@ def main():
             patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(hr_image, lr_image,
-                epochs = 1000,
+                epochs = 2000,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
