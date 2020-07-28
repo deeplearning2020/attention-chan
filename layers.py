@@ -36,9 +36,9 @@ class AttentionBlock(object):
         x1 = GlobalAveragePooling2D()(x1)
         x1 = Reshape((1, 1, self.filters))(x1)
 
-        p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
-        p1 = GlobalAveragePooling2D()(p1)
-        p1 = Reshape((1, 1, self.filters))(p1)
+        #p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
+        #p1 = GlobalAveragePooling2D()(p1)
+        #p1 = Reshape((1, 1, self.filters))(p1)
 
         #x2 = Conv2D(self.filters, kernel_size = 1)(x)
 
@@ -46,7 +46,7 @@ class AttentionBlock(object):
 
         #x3 = Conv2D(self.filters, kernel_size = 1)(x)
 
-        psi = Add()([g1, x1, p1])
+        psi = Add()([g1, x1])
         #psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
         psi = Reshape((1, 1, self.filters))(psi)
@@ -59,7 +59,7 @@ class AttentionBlock(object):
         psi = Add()([g2, x2])
         psi = LeakyReLU()(psi)
         psi = Conv2D(1, kernel_size=1, padding='same')(psi)
-        psi = BatchNormalization()(psi)
+        #psi = BatchNormalization()(psi)
         psi = Activation('sigmoid')(psi)
         #psi = MaxPooling2D(pool_size=(2, 2), padding='same')(psi)
         x = tf.multiply(x, psi)
