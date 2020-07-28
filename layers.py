@@ -36,9 +36,9 @@ class AttentionBlock(object):
         x1 = GlobalAveragePooling2D()(x1)
         x1 = Reshape((1, 1, self.filters))(x1)
 
-        p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
-        p1 = GlobalAveragePooling2D()(p1)
-        p1 = Reshape((1, 1, self.filters))(p1)
+        #p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
+        #p1 = GlobalAveragePooling2D()(p1)
+        #p1 = Reshape((1, 1, self.filters))(p1)
 
         #x2 = Conv2D(self.filters, kernel_size = 1)(x)
 
@@ -46,7 +46,7 @@ class AttentionBlock(object):
 
         #x3 = Conv2D(self.filters, kernel_size = 1)(x)
 
-        psi = Add()([g1, x1, p1])
+        psi = Add()([g1, x1])
         #psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
         psi = Reshape((1, 1, self.filters))(psi)
