@@ -31,10 +31,13 @@ class AttentionBlock(object):
         g1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
         g1 = GlobalAveragePooling2D()(g1)
         g1 = Reshape((1, 1, self.filters))(g1)
+        g1 = Conv2D(self.filters, kernel_size=3, padding='same')(g1)
 
         x1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
-        x1 = GlobalAveragePooling2D()(x1)
+        x1 = GlobalMaxPooling2D()(x1)
         x1 = Reshape((1, 1, self.filters))(x1)
+        x1 = Conv2D(self.filters, kernel_size=3, padding='same')(x1)
+
 
         #p1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
         #p1 = GlobalAveragePooling2D()(p1)
