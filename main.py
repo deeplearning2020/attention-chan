@@ -27,10 +27,10 @@ def model(inputShape):
     x = AttentionBlock(64)(x)
     x = DepthwiseSeparableConv_Block(32, 1, strides = 1)(x)
     x = AttentionBlock(32)(x)
-    x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(16, 1, strides = 1)(x)
     x = AttentionBlock(16)(x)
-    x = DepthwiseSeparableConv_Block(8, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(3, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(8, 1, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(3, 1, strides = 1)(x)
     model = Model(input_img, x)
     return model
 
