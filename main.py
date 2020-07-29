@@ -55,7 +55,7 @@ def main():
     nn = model(inputShape)
     print(nn.summary())
     lr_schedule = ExponentialDecay(
-        initial_learning_rate=1e-2,
+        initial_learning_rate=1e-1,
         decay_steps=10000,
         decay_rate=0.99)
     optimizer = SGD(learning_rate = lr_schedule)
