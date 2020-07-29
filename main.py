@@ -5,6 +5,7 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras import Input
+from tesorflow.keras.callbacks import LearningRateScheduler
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
@@ -35,6 +36,13 @@ def model(inputShape):
     model = Model(input_img, x)
     return model
 
+def step_decay(epoch):
+   initial_lrate = 0.01
+   drop = 0.5
+   epochs_drop = 100.0
+   lrate = initial_lrate * math.pow(drop,  
+           math.floor((1+epoch)/epochs_drop))
+   return lrate
 
 def main():
 
@@ -54,11 +62,12 @@ def main():
 
     nn = model(inputShape)
     print(nn.summary())
-    lr_schedule = ExponentialDecay(
-        initial_learning_rate=1e-1,
-        decay_steps=1000,
-        decay_rate=0.99)
-    optimizer = SGD(learning_rate = lr_schedule)
+    #lr_schedule = ExponentialDecay(
+     #   initial_learning_rate=1e-1,
+      #  decay_steps=1000,
+       # decay_rate=0.99)
+    lrate = LearningRateScheduler(step_decay)
+    optimizer = SGD(learning_rate = lrate)
     #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
