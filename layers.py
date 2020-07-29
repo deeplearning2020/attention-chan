@@ -11,6 +11,7 @@ from tensorflow.keras.layers import (
     GlobalMaxPooling2D,
     MaxPooling2D,
     LeakyReLU,
+    PReLU,
     Add,
     Activation)
 from tensorflow.keras.initializers import RandomNormal
@@ -84,7 +85,8 @@ class DepthwiseSeparableConv_Block(object):
             self.filters,
             kernel_size=self.kernelSize,
             strides=self.strides,
-            padding='same',activation = 'selu')(x)
+            padding='same')(x)
+        x = PReLU()(x)
         #x = BatchNormalization()(x)
         return x
 
