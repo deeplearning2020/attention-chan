@@ -74,7 +74,7 @@ def main():
      #       patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(lr_image, hr_image,
-                epochs = 500,
+                epochs = 1500,
                 batch_size = batchSize)
                 #callbacks=[lrate])
 
