@@ -5,7 +5,7 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras import Input
-from tesorflow.keras.callbacks import LearningRateScheduler
+from tensorflow.keras.callbacks import LearningRateScheduler
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import load_img
