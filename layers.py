@@ -32,11 +32,13 @@ class AttentionBlock(object):
         g1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
         g1 = GlobalAveragePooling2D()(g1)
         g1 = Reshape((1, 1, self.filters))(g1)
+        x1 = Activation('softmax')(x1)
         g1 = Conv2D(self.filters, kernel_size=3, padding='same')(g1)
 
         x1 = Conv2D(self.filters, kernel_size=1, padding='same')(x)
         x1 = GlobalMaxPooling2D()(x1)
         x1 = Reshape((1, 1, self.filters))(x1)
+        x1 = Activation('softmax')(x1)
         x1 = Conv2D(self.filters, kernel_size=3, padding='same')(x1)
 
 
@@ -58,10 +60,12 @@ class AttentionBlock(object):
         g2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
         g2 = GlobalAveragePooling2D()(g2)
         g2 = Reshape((1, 1, self.filters))(g2)
+        g2 = Activation('softmax')(g2)
         g2 = Conv2D(self.filters, kernel_size=5, padding='same')(g2)
-        x2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
+        x2 = Conv2D(self.filters, kernel_size=3, padding='same')(g2)
         x2 = GlobalMaxPooling2D()(x2)
         x2 = Reshape((1, 1, self.filters))(x2)
+        x2 = Activation('softmax')(x2)
         x2 = Conv2D(self.filters, kernel_size=5, padding='same')(x2)
 
         #p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
