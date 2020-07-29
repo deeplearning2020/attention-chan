@@ -60,7 +60,7 @@ class AttentionBlock(object):
         p2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
         psi = Add()([g2, x2, x, p2, psi])
-        psi = LeakyReLU(alpha = 0.1)(psi)
+        psi = LeakyReLU(alpha = 0.7)(psi)
         psi = Conv2D(1, kernel_size=1, padding='same')(psi)
         #psi = BatchNormalization()(psi)
         psi = Activation('sigmoid')(psi)
