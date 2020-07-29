@@ -35,7 +35,7 @@ def model(inputShape):
     return model
 
 def step_decay(epoch):
-   initial_lrate = 0.01
+   initial_lrate = 0.1
    drop = 0.5
    epochs_drop = 100.0
    lrate = initial_lrate * math.pow(drop,  
@@ -65,7 +65,7 @@ def main():
       #  decay_steps=1000,
        # decay_rate=0.99)
     lrate = LearningRateScheduler(step_decay)
-    optimizer = SGD(learning_rate = 0.01)
+    optimizer = SGD(learning_rate = 0.1)
     #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
