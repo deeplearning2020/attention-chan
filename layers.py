@@ -42,11 +42,11 @@ class AttentionBlock(object):
         psi = Reshape((1, 1, self.filters))(psi)
         psi = Activation('softmax')(psi)
 
-        g2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
+        g2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
-        x2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
+        x2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
-        psi = Add()([g2, x2, x])
+        psi = Add()([g2, x2, x, psi])
         psi = LeakyReLU()(psi)
         psi = Conv2D(1, kernel_size=1, padding='same')(psi)
         #psi = BatchNormalization()(psi)
