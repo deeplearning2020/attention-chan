@@ -19,10 +19,10 @@ from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(input_img)
+    x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(input_img)
     #x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
-    x = AttentionBlock(128)(x)
-    x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
+    x = AttentionBlock(64)(x)
+    #x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
     #x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
     #x = AttentionBlock(128)(x)
     x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
@@ -75,7 +75,7 @@ def main():
      #       patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(hr_image, lr_image,
-                epochs = 1000,
+                epochs = 2000,
                 batch_size = batchSize)
                 #callbacks=[lrate])
 
