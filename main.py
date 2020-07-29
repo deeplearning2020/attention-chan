@@ -65,10 +65,10 @@ def main():
       #  decay_steps=1000,
        # decay_rate=0.99)
     lrate = LearningRateScheduler(step_decay)
-    optimizer = SGD(learning_rate = 0.01)
+    #optimizer = SGD(learning_rate = 0.01)
     #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
-    #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    optimizer = Adam(lr=0.001, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
     #es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
