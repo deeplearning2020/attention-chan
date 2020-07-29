@@ -86,7 +86,7 @@ class DepthwiseSeparableConv_Block(object):
             kernel_size=self.kernelSize,
             strides=self.strides,
             padding='same')(x)
-        x = LeakyReLU(alpha = 0.1)(x)
+        x = LeakyReLU(alpha = 0.7)(x)
         #x = BatchNormalization()(x)
         return x
 
