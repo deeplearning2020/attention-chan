@@ -5,6 +5,7 @@ from tensorflow.keras.layers import (
     Conv2DTranspose,
     BatchNormalization,
     Reshape,
+    Dense,
     AveragePooling2D,
     GlobalAveragePooling2D,
     GlobalMaxPooling2D,
@@ -53,6 +54,7 @@ class AttentionBlock(object):
         psi = Add()([g1, x1, x])
         #psi = LeakyReLU()(psi)
         psi = GlobalAveragePooling2D()(psi)
+        psi = Dense(256)(psi)
         psi = Reshape((1, 1, self.filters))(psi)
         psi = Activation('softmax')(psi)
         g2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
@@ -61,7 +63,7 @@ class AttentionBlock(object):
         g2 = Conv2D(self.filters, kernel_size=5, padding='same')(g2)
         x2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
         x2 = GlobalMaxPooling2D()(x2)
-        x2 = Activation('softmax')(x2)
+        x2 = Reshape((1, 1, self.filters))(x2)
         x2 = Conv2D(self.filters, kernel_size=5, padding='same')(x2)
 
         #p2 = Conv2D(self.filters, kernel_size=7, padding='same')(psi)
