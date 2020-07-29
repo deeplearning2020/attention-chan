@@ -56,7 +56,7 @@ def main():
     print(nn.summary())
     lr_schedule = ExponentialDecay(
         initial_learning_rate=1e-1,
-        decay_steps=10000,
+        decay_steps=1000,
         decay_rate=0.99)
     optimizer = SGD(learning_rate = lr_schedule)
     #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
@@ -68,7 +68,7 @@ def main():
             patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(hr_image, lr_image,
-                epochs = 1000,
+                epochs = 500,
                 batch_size = batchSize, callbacks = [es])
 
     """ reconstrucing high-resolution image from the low-resolution image """
