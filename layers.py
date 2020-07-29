@@ -84,7 +84,7 @@ class DepthwiseSeparableConv_Block(object):
             self.filters,
             kernel_size=self.kernelSize,
             strides=self.strides,
-            padding='same',activation = 'relu')(x)
+            padding='same',activation = 'selu')(x)
         #x = BatchNormalization()(x)
         return x
 
