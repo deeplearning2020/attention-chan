@@ -36,8 +36,8 @@ def model(inputShape):
 
 def step_decay(epoch):
    initial_lrate = 0.1
-   drop = 0.5
-   epochs_drop = 100.0
+   drop = 0.3
+   epochs_drop = 50.0
    lrate = initial_lrate * math.pow(drop,  
            math.floor((1+epoch)/epochs_drop))
    return lrate
