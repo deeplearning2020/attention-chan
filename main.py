@@ -73,12 +73,12 @@ def main():
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     nn.compile(optimizer = optimizer, loss = 'mse')
     
-    es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
-            patience = 100) ## early stopping to prevent overfitting
+    #es = EarlyStopping(monitor = 'loss' , mode = 'min', verbose = 1, 
+     #       patience = 100) ## early stopping to prevent overfitting
 
     history = nn.fit(hr_image, lr_image,
                 epochs = 500,
-                batch_size = batchSize, callbacks = [es])
+                batch_size = batchSize)
 
     """ reconstrucing high-resolution image from the low-resolution image """
     pred = nn.predict(lr_image)
