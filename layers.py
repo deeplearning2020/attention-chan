@@ -52,11 +52,11 @@ class AttentionBlock(object):
         psi = Reshape((1, 1, self.filters))(psi)
         psi = Activation('softmax')(psi)
 
-        g2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
+        g2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
-        x2 = Conv2D(self.filters, kernel_size=3, padding='same')(psi)
+        x2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
-        p2 = Conv2D(self.filters, kernel_size=5, padding='same')(psi)
+        p2 = Conv2D(self.filters, kernel_size=1, padding='same')(psi)
 
         psi = Add()([g2, x2, x, p2, psi])
         psi = LeakyReLU()(psi)
@@ -84,9 +84,8 @@ class DepthwiseSeparableConv_Block(object):
             self.filters,
             kernel_size=self.kernelSize,
             strides=self.strides,
-            padding='same')(x)
+            padding='same',activation = 'relu')(x)
         #x = BatchNormalization()(x)
-        x = LeakyReLU()(x)
         return x
 
 
