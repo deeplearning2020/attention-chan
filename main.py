@@ -19,13 +19,13 @@ from layers import DepthwiseSeparableConv_Block, AttentionBlock
 
 def model(inputShape):
     input_img = Input(shape=(inputShape))
-    x = DepthwiseSeparableConv_Block(128, 3, strides = 1)(input_img)
+    x = DepthwiseSeparableConv_Block(128, 1, strides = 1)(input_img)
     #x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
     x = AttentionBlock(128)(x)
     #x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
-    x = DepthwiseSeparableConv_Block(64, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(64, 1, strides = 1)(x)
     x = AttentionBlock(64)(x)
-    x = DepthwiseSeparableConv_Block(32, 3, strides = 1)(x)
+    x = DepthwiseSeparableConv_Block(32, 1, strides = 1)(x)
     x = AttentionBlock(32)(x)
     x = DepthwiseSeparableConv_Block(16, 3, strides = 1)(x)
     x = AttentionBlock(16)(x)
