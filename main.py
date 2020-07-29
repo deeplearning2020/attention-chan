@@ -67,7 +67,7 @@ def main():
       #  decay_steps=1000,
        # decay_rate=0.99)
     lrate = LearningRateScheduler(step_decay)
-    optimizer = SGD(learning_rate = lrate)
+    optimizer = SGD(learning_rate = 0.01)
     #optimizer = SGD(learning_rate=0.001,epsilon = 1e-9, beta_1 = .9, beta_2 = .999)
 
     #optimizer = Adam(lr=1e-2, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
@@ -78,7 +78,8 @@ def main():
 
     history = nn.fit(hr_image, lr_image,
                 epochs = 500,
-                batch_size = batchSize)
+                batch_size = batchSize,
+                callbacks=[lrate])
 
     """ reconstrucing high-resolution image from the low-resolution image """
     pred = nn.predict(lr_image)
